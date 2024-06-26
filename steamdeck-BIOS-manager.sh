@@ -27,7 +27,7 @@ fi
 # display warning / disclaimer
 zenity --question --title "BIOS Manager For Steam Deck" --text \
 	"ВНИМАНИЕ: Это только для образовательных и исследовательских целей! \
-	\n\nTСкрипт был протестирован на Steam Deck LCD и Steam Deck OLED. \
+	\n\nСкрипт был протестирован на Steam Deck LCD и Steam Deck OLED. \
 	\nПрежде чем приступать к DOWNGRADE / FLASH BIOS, обязательно восстановите настройки BIOS до DEFAULT. \
 	\n\nАвтор этого скрипта не несет никакой ответственности, если что-то пойдет не так! \
 	\nАвтоматически создается резервная копия BIOS, чтобы вы могли восстановить работоспособное состояние. \
