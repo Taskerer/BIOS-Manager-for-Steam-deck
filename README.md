@@ -1,88 +1,65 @@
 # Steam Deck BIOS Manager
 
-A shell script to easily unlock, download, flash, create BIOS backups, and block / unblock BIOS updates for the Steam Deck running on SteamOS.
+Скрипт для легкой разблокировки, загрузки, прошивки, создания резервных копий BIOS и блокировки/разблокировки обновлений BIOS для Steam Deck под управлением SteamOS
 
-**Thanks to [smokeless](https://github.com/SmokelessCPUv2/) and [stanto](https://stanto.com) for the PBS and CBS unlock!\
-Thanks to [evlaV gitlab repo](https://gitlab.com/evlaV/jupiter-PKGBUILD) for hosting the Steam Deck (SteamOS 3.x) source code public mirror. Sourced from Valve's latest official (main) source packages.**
+**Спасибо 10MinuteSteamDeckGamer за такой прекрасный скрипт(https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager). Спасибо [smokeless](https://github.com/SmokelessCPUv2/) и [stanto](https://stanto.com) за разблокировку PBS и CBS!\
+Спасибо [evlaV gitlab repo](https://gitlab.com/evlaV/jupiter-PKGBUILD) за размещение публичного зеркала исходного кода Steam Deck (SteamOS 3.x). Взято из последних официальных (основных) исходных пакетов Valve.**
 
-No BIOS files are included in this repository - the signed BIOS files are downloaded on-the-fly from evlaV gitlab repository.
+В этот репозиторий не включены файлы BIOS - подписанные файлы BIOS загружаются "на лету" из gitlab-репозитория evlaV.
 
-**DO NOT DELETE / MODIFY THE MD5.TXT FILE!** \
-It contains the md5 hash of the signed BIOS files. If this is modified then the hash sanity check will fail and you wont be able to use this tool to easily flash BIOS.
+**НЕ УДАЛЯЙТЕ И НЕ ИЗМЕНЯЙТЕ ФАЙЛ MD5.TXT!** \
+Он содержит md5-хэш подписанных файлов BIOS. Если он будет изменен, то проверка на вменяемость хэша будет провалена, и вы не сможете использовать этот инструмент для простой прошивки BIOS.
 
-## What Does it Do?!?
-**Answer: it automates a lot of the functions regarding BIOS operations for the Steam Deck running on SteamOS! \
-No more need to type manual and complicated commands!**
-
-**a. BACKUP** - this will backup the current BIOS to a directory called ~/BIOS_backup. It will be saved in a file with the following naming convention - 
+## Что она делает?!?
+**Ответ: автоматизирует многие функции, связанные с работой BIOS для Steam Deck под управлением SteamOS! \
+Больше не нужно набирать сложные команды вручную!**
+**a. BACKUP** - это создаст резервную копию текущего BIOS в каталог ~/BIOS_backup. Она будет сохранена в файле со следующим названием - 
 ![image](https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager/assets/98122529/bc7d465c-f87b-4b97-b410-77d4afc2703f)
 
-**b. BLOCK** - this will prevent SteamOS from automatically applying BIOS updates. Under the hood it performs this tasks - \
-   `disables and masks the BIOS update service` \
-   `creates a file called /foxnet/bios/INHIBIT` \
-   `move the BIOS update file located in /usr/share/jupiter_bios to /usr/share/jupiter_bios/bak`
+**b. BLOCK** - это не позволит SteamOS автоматически обновлять BIOS.
 
-**c. UNBLOCK** - this will allow SteamOS to automatically apply BIOS updates. Under the hood it performs this tasks - \
-   `unmask and enable the BIOS update service` \
-   `deletes the file called /foxnet/bios/inhibit` \
-   `move the BIOS update file back to the original location /usr/share/jupiter_bios`
+**c. UNBLOCK** - это позволит SteamOS автоматически обновлять BIOS.
 
-**d. SMOKELESS** - this will unlock the BIOS to be able to use Smokeless and also expose the AMD PBS CBS menus. Under the hood it performs this tasks - \
-   `download jupiter-bios-unlock from evlaV gitlab repo and make it executable` \
-   `perform sanity check - run the unlock tool only if the BIOS version is 110, 113, 115 or 116`
+**d. SMOKELESS** - Это разблокирует BIOS для использования Smokeless, а также откроет меню AMD PBS CBS. ТОЛЬКО ДЛЯ BIOS НЕ ВЫШЕ 116
 
-**e. DOWNLOAD** - this will download signed BIOS files from evlaV gitlab repository. Under the hood it performs this tasks - \
-   `create BIOS directory where signed BIOS files will be downloaded` \
-   `delete any existing files in the BIOS directory (in case there are corrupted BIOS files)` \
-   `download signed BIOS files from evlaV gitlab repository`
+**e. DOWNLOAD** - это загрузит подписанные файлы BIOS из gitlab-репозитория evlaV.
 
-**f. FLASH** - this will show a menu of available signed BIOS files and user can select which one to flash. Under the hood it performs this tasks - \
-   `check if the md5 sum matches to prevent flashing corrupt downloads` \
-   `block BIOS updates and backup current BIOS` \
-   `perform the BIOS flash` \
+**f. FLASH** - появится меню доступных подписанных файлов BIOS, и пользователь сможет выбрать, какой из них прошить.
+
 ![image](https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager/assets/98122529/d6ad02e3-c6c6-4a11-a113-e4c0ada614b6)
 
-**g. CRISIS** -  this will prepare a USB flash drive for Crisis Mode BIOS flashing - \
-   `the inserted USB flash drive will be repartitioned and reformatted as FAT32` \
-   `for OLED model - F7G0107_sign.fd will be copied to the USB flash drive as F7GRecovery.fd` \
-   `for LCD model - F7A0120_sign.fd will be copied to the USB flash drive as F7ARecovery.fd`
+**g. CRISIS** -  это позволит подготовить USB-накопитель для прошивки BIOS в Crisis Mode - \
+   `Вставленный USB-накопитель будет переразмечен и переформатирован в формат FAT32` \
+	`для модели OLED - F7G0107_sign.fd будет скопирован на USB-накопитель как F7GRecovery.fd` \
+	`для модели LCD - F7A0120_sign.fd будет скопирован на USB-накопитель как F7ARecovery.fd` \
 
 
-## IMPORTANT INFO ABOUT THE CRISIS MODE! - READ THIS CAREFULLY!
-The script will automatically repartition and reformat the USB flash drive as FAT32. \
-Make sure to insert the correct USB flash drive and no other flash drives are inserted. \
-If your dock has a built-in SSD reader, then do not use the CRISIS mode option of the script! \
-**Again - If your dock has a built-in SSD reader, then do not use the CRISIS mode option of the script!**\
-Reason for that - it will always be identified as SDA1 and the script will format the built-in SSD reader instead of the actual USB flash drive.
-**Again - If your dock has a built-in SSD reader, then do not use the CRISIS mode option of the script!**\
+## Необходимые требования для SteamOS
+1. Пароль sudo должен быть уже установлен конечным пользователем. Если пароль sudo еще не установлен, скрипт попросит его установить.
 
-
-## Prerequisites for SteamOS
-1. sudo password should already be set by the end user. If sudo password is not yet set, the script will ask to set it up.
-
-## How to Use
-1. Go into Desktop Mode and open a konsole terminal.
-2. Clone the github repo. \
+## Как использовать
+1. Перейдите в режим рабочего стола и откройте терминал konsole.
+2. Клонируйте репозиторий github. \
    cd ~/ \
    git clone https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager.git
-3. Execute the script! \
+3. Выполните скрипт! \
    cd ~/SteamDeck-BIOS-Manager \
    chmod +x steamdeck-BIOS-manager.sh \
    ./steamdeck-BIOS-manager.sh
    
-4. The script will check if sudo passwword is already set.\
+4. Скрипт проверит, не установлен ли уже пароль sudo.\
 ![image](https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager/assets/98122529/15a9d968-2602-43a5-8e7f-54628db00171)
 
-   a. If the sudo password is already set, enter the current sudo password and the script will continue to run and the main menu will be displayed. \
+   a. Если пароль sudo уже установлен, введите текущий пароль sudo, и сценарий продолжит выполняться, а на экране появится главное меню. \
    ![image](https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager/assets/98122529/83f8f0e7-b1f6-43fb-b577-86ebdc434683)
 
-   b. If wrong sudo password is provided the script will show an error message. Re-run the script and enter the correct sudo password!\
+   b. Если введен неправильный пароль sudo, скрипт выдаст сообщение об ошибке. Запустите скрипт заново и введите правильный пароль sudo! \
    ![image](https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager/assets/98122529/8a56e14c-3432-4e94-85fc-7a7e39a3e6d6)
       
-   c. If the sudo password is blank / not yet set, the script will prompt to setup the sudo password. Re-run the script again to continue.\
+   c. Если пароль sudo не введен / еще не установлен, скрипт предложит установить пароль sudo. Запустите скрипт снова, чтобы продолжить.\
    ![image](https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager/assets/98122529/8db149de-07f3-40ba-9a96-96bc77da7543)
 
-5. Main menu. Make your selection.\
+5. Главное меню. Сделайте выбор.\
 ![image](https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager/assets/98122529/ca654997-a816-4fa5-867a-631c28d343f2)
 
 
