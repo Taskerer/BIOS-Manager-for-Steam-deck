@@ -2,12 +2,12 @@
 
 clear
 
-echo Steam Deck BIOS Manager - script by ryanrudolf
-echo https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager
-echo Easily unlock, download, flash, create BIOS backups, and block / unblock BIOS updates!
+echo BIOS Manager For Steam Deck - script by biddbb
+echo https://github.com/Taskerer/BIOS-Manager-for-Steam-deck
+echo Легко разблокируйте, загружайте, прошивайте, создавайте резервные копии BIOS, блокируйте и разблокируйте обновления BIOS!
 sleep 2
 
-# Password sanity check - make sure sudo password is already set by end user!
+# Проверка правильности пароля - убедитесь, что пароль sudo уже установлен конечным пользователем!
 if [ "$(passwd --status $(whoami) | tr -s " " | cut -d " " -f 2)" == "P" ]
 then
 	PASSWORD=$(zenity --password --title "sudo Password Authentication")
@@ -25,14 +25,14 @@ else
 fi
 
 # display warning / disclaimer
-zenity --question --title "Steam Deck BIOS Manager" --text \
-	"WARNING: This is for educational and research purposes only! \
-	\n\nThe script has been tested with Steam Deck LCD and Steam Deck OLED. \
-	\nBefore attempting to DOWNGRADE / FLASH BIOS, make sure to restore your BIOS settings to DEFAULT as pre-caution. \
-	\n\nThe author of this script takes no responsibility if something goes wrong! \
-	\nA BIOS backup is automatically created so you can restore to a working state. \
-       	\nBackup is located in /home/deck/BIOS_Backup. You will need a hardware flasher to recover. \
-	\n\nDo you agree to the terms and conditions ?" --width 650 --height 75
+zenity --question --title "BIOS Manager For Steam Deck" --text \
+	"ВНИМАНИЕ: Это только для образовательных и исследовательских целей! \
+	\n\nTСкрипт был протестирован на Steam Deck LCD и Steam Deck OLED. \
+	\nПрежде чем приступать к DOWNGRADE / FLASH BIOS, обязательно восстановите настройки BIOS до DEFAULT. \
+	\n\nАвтор этого скрипта не несет никакой ответственности, если что-то пойдет не так! \
+	\nАвтоматически создается резервная копия BIOS, чтобы вы могли восстановить работоспособное состояние. \
+       	\nРезервная копия находится в каталоге /home/deck/BIOS_Backup. Для восстановления вам понадобится аппаратная прошивка. \
+	\n\nСогласны ли вы с условиями?" --width 650 --height 75
 			if [ $? -eq 1 ]
 			then
 				echo User pressed NO. Exit immediately.
@@ -54,8 +54,8 @@ USB_SIZE=$(lsblk | grep sda | head -n1)
 # sanity check - make sure LCD or OLED!
 if [ $MODEL = "Jupiter" ]
 then
-	zenity --question --title "Steam Deck BIOS Manager" --text \
-	"The script detected that you are using a Steam Deck LCD Model. \n\nIs this correct ?" --width 450 --height 75
+	zenity --question --title "BIOS Manager For Steam Deck" --text \
+	"Скрипт обнаружил, что вы используете модель Steam Deck LCD. \n\nВерно ли это ?" --width 450 --height 75
 			if [ $? -eq 1 ]
 			then
 				echo User pressed NO. Exit immediately.
@@ -66,8 +66,8 @@ then
 
 elif [ $MODEL = "Galileo" ]
 then
-	zenity --question --title "Steam Deck BIOS Manager" --text \
-	"The script detected that you are using a Steam Deck OLED Model. \n\nIs this correct ?" --width 460 --height 75
+	zenity --question --title "BIOS Manager For Steam Deck" --text \
+	"Скрипт обнаружил, что вы используете модель Steam Deck OLED. \n\nВерно ли это ?" --width 460 --height 75
 			if [ $? -eq 1 ]
 			then
 				echo User pressed NO. Exit immediately.
@@ -76,28 +76,28 @@ then
 				echo User pressed YES. Continue with the script
 			fi
 else
-	zenity --warning --title "Steam Deck BIOS Manager" --text \
-		"The script can't determine if its an OLED or LCD.\n\nPlease file a bug report on the Github repo!" --width 400 --height 75
+	zenity --warning --title "BIOS Manager For Steam Deck" --text \
+		"Скрипт не может определить, OLED это или LCD.\n\nПожалуйста, отправьте сообщение об ошибке в репозиторий Github!" --width 400 --height 75
 	exit
 fi
 
 while true
 do
 Choice=$(zenity --width 750 --height 400 --list --radiolist --multiple \
-	--title "Steam Deck BIOS Manager  - https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager"\
-	--column "Select One" \
-	--column "Option" \
-	--column="Description - Read this carefully!"\
-	FALSE BACKUP "Create a backup of the current BIOS installed."\
-	FALSE BLOCK "Prevent SteamOS from automatically installing new BIOS update."\
-	FALSE UNBLOCK "Allow SteamOS to automatically install new BIOS update."\
-	FALSE SREP "Unlock PBS / CBS BIOS menu using SREP method."\
-	FALSE SMOKELESS "Unlock the BIOS v110 to v116 and allow for Smokeless utility."\
-	FALSE RYZENADJ "Download ryzenadj and install to /usr/bin."\
-	FALSE DOWNLOAD "Download BIOS update from evlaV gitlab repository for manual flashing."\
-	FALSE FLASH "Backup and flash BIOS downloaded from evlaV gitlab repository."\
-	FALSE CRISIS "Prepare a USB flash drive for Crisis Mode BIOS flashing."\
-	TRUE EXIT "***** Exit this script *****")
+	--title "BIOS Manager For Steam Deck  - https://github.com/Taskerer/BIOS-Manager-for-Steam-deck"\
+	--column "Выберите одно" \
+	--column "Опция" \
+	--column="Описание - Читайте внимательно!"\
+	FALSE BACKUP "Создайте резервную копию текущего установленного BIOS."\
+	FALSE BLOCK "Запретите SteamOS автоматически обновлять BIOS."\
+	FALSE UNBLOCK "Разрешите SteamOS автоматически обновлять BIOS."\
+	FALSE SREP "Разблокируйте меню PBS / CBS BIOS с помощью технологии SREP."\
+	FALSE SMOKELESS "Разблокируйте BIOS с v110 по v116 и разрешите использование утилиты Smokeless."\
+	FALSE RYZENADJ "Скачайте ryzenadj и установите в /usr/bin."\
+	FALSE DOWNLOAD "Загрузите обновление BIOS из репозитория evlaV gitlab для ручной прошивки."\
+	FALSE FLASH "Резервное копирование и прошивка BIOS, загруженного из репозитория evlaV gitlab."\
+	FALSE CRISIS "Подготовьте USB-накопитель для прошивки BIOS в Crisis Mode."\
+	TRUE EXIT "***** Выйти из этого скрипта *****")
 
 if [ $? -eq 1 ] || [ "$Choice" == "EXIT" ]
 then
@@ -112,15 +112,15 @@ if [ $? -eq 0 ]
 then
 	# create usb flash drive for crisis mode
 	clear
-	zenity --question --title "Steam Deck BIOS Manager" --text \
-	"This will prepare a USB flash drive for Crisis Mode BIOS flashing. \
-	\n\nMake sure only 1 USB flash drive is inserted and disconnect other USB storage devices. \
-	\n\nUSB flash drive detected - \
+	zenity --question --title "BIOS Manager For Steam Deck" --text \
+	"Это позволит подготовить USB-накопитель к прошивке BIOS в кризисном режиме. \
+	\n\nУбедитесь, что вставлен только 1 USB-накопитель, и отсоедините другие USB-накопители. \
+	\n\nОбнаружен USB-накопитель - \
 	\n$USB_MODEL \
 	\n$USB_SIZE \
-	\n\nAll contents of the USB flash drive will be deleted! \
-	\n\nIf the wrong USB flash drive is detected then do not proceed! \
-	\n\nDo you want to continue?" --width 650 --height 75
+	\n\nВсе содержимое USB-накопителя будет удалено! \
+	\n\nЕсли обнаружен неправильный USB-накопитель, не продолжайте! \
+	\n\nВы хотите продолжить?" --width 650 --height 75
 	if [ $? -eq 1 ]
 	then
 		echo User pressed NO. Go back to main menu.
@@ -131,8 +131,8 @@ then
 		lsblk | grep sda
 		if [ $? -eq 1 ]
 		then
-			zenity --warning --title "Steam Deck BIOS Manager" --text "USB flash drive not detected! \
-				\n\nMake sure USB flash drive is plugged in and try the CRISIS option again." --width 400 --height 75
+			zenity --warning --title "BIOS Manager For Steam Deck" --text "USB-накопитель не обнаружен! \
+				\n\nУбедитесь, что USB-накопитель подключен, и попробуйте снова воспользоваться опцией CRISIS." --width 400 --height 75
 		else
 			echo USB flash drive detected. Proceed with the script.
 			# unmount the drive
@@ -164,13 +164,13 @@ then
 			sudo umount $(pwd)/temp
 			rmdir $(pwd)/temp
 			
-			zenity --warning --title "Steam Deck BIOS Manager" --text "USB flash drive for Crisis Mode BIOS flashing has been created! \
-				\n\nThanks to Stanto / www.stanto.com for the writeup regarding Crisis Mode BIOS flashing!" --width 475 --height 75
+			zenity --warning --title "BIOS Manager For Steam Deck" --text "USB-накопитель для прошивки BIOS для Crisis Mode создан! \
+				\n\nСпасибо Stanto / www.stanto.com за статью о прошивке BIOS в кризисном режиме!" --width 475 --height 75
 		fi
 	fi
 else
-	zenity --warning --title "Steam Deck BIOS Manager" --text \
-		"BIOS files does not exist.\n\nPerform a DOWNLOAD operation first." --width 400 --height 75
+	zenity --warning --title "BIOS Manager For Steam Deck" --text \
+		"Файлы BIOS отсутствуют.\n\nСначала выполните операцию DOWNLOAD." --width 400 --height 75
 fi
 elif [ "$Choice" == "BACKUP" ]
 then
@@ -179,8 +179,8 @@ then
 	mkdir ~/BIOS_backup 2> /dev/null
 	echo -e "$PASSWORD\n" | sudo -S /usr/share/jupiter_bios_updater/h2offt \
 		~/BIOS_backup/jupiter-$BIOS_VERSION-bios-backup-$(date +%B%d).bin -O
-	zenity --warning --title "Steam Deck BIOS Manager" --text "BIOS backup has been completed! \
-		\n\nBackup is saved in BIOS_backup folder." --width 400 --height 75
+	zenity --warning --title "BIOS Manager For Steam Deck" --text "Резервное копирование BIOS завершено! \
+		\n\nРезервная копия сохраняется в папке BIOS_backup." --width 400 --height 75
 
 elif [ "$Choice" == "BLOCK" ]
 then
@@ -193,7 +193,7 @@ then
 	echo -e "$PASSWORD\n" | sudo -S mkdir /usr/share/jupiter_bios/bak &> /dev/null
 	echo -e "$PASSWORD\n" | sudo -S mv /usr/share/jupiter_bios/F* /usr/share/jupiter_bios/bak &> /dev/null
 	echo -e "$PASSWORD\n" | sudo -S steamos-readonly enable
-	zenity --warning --title "Steam Deck BIOS Manager" --text "BIOS updates has been blocked!" --width 400 --height 75
+	zenity --warning --title "BIOS Manager For Steam Deck" --text "Обновления BIOS были заблокированы!" --width 400 --height 75
 
 elif [ "$Choice" == "UNBLOCK" ]
 then
@@ -204,16 +204,16 @@ then
 	echo -e "$PASSWORD\n" | sudo -S mv /usr/share/jupiter_bios/bak/F* /usr/share/jupiter_bios &> /dev/null
 	echo -e "$PASSWORD\n" | sudo -S rmdir /usr/share/jupiter_bios/bak &> /dev/null
 	echo -e "$PASSWORD\n" | sudo -S steamos-readonly enable
-	zenity --warning --title "Steam Deck BIOS Manager" --text "BIOS updates has been unblocked!" --width 400 --height 75
+	zenity --warning --title "BIOS Manager For Steam Deck" --text "Обновления BIOS были разблокированы!" --width 400 --height 75
 
 elif [ "$Choice" == "SREP" ]
 then
 	clear
-	SREP_Choice=$(zenity --width 660 --height 220 --list --radiolist --multiple --title "Waydroid Toolbox" \
-		--column "Select One" --column "Option" --column="Description - Read this carefully!"\
-		FALSE ENABLE "Copy SREP files to the ESP."\
-		FALSE DISABLE "Remove SREP files from the ESP."\
-		TRUE MENU "***** Go back to Steam Deck BIOS Manager Main Menu *****")
+	SREP_Choice=$(zenity --width 660 --height 220 --list --radiolist --multiple --title "BIOS Manager For Steam Deck" \
+		--column "Выберите одно" --column "Опции" --column="Описание - Читайте внимательно!"\
+		FALSE ENABLE "Скопируйте файлы SREP в ESP."\
+		FALSE DISABLE "Удалите файлы SREP из ESP."\
+		TRUE MENU "***** Вернутся обратно в BIOS Manager For Steam Deck Главное меню *****")
 
 		if [ $? -eq 1 ] || [ "$SREP_Choice" == "MENU" ]
 		then
@@ -245,11 +245,11 @@ then
 
 				# delete the SREP files
 				rm -rf $(pwd)/$MODEL-SREP $(pwd)/$MODEL-SREP.zip
-				zenity --warning --title "Steam Deck BIOS Manager" --text "SREP files has been copied to the ESP!" --width 350 --height 75
+				zenity --warning --title "BIOS Manager For Steam Deck" --text "Файлы SREP были скопированы в ESP!" --width 350 --height 75
 			else
 				# delete the SREP files
 				rm -rf $(pwd)/$MODEL-SREP $(pwd)/$MODEL-SREP.zip
-				zenity --warning --title "Steam Deck BIOS Manager" --text "There was an error downloading / unzipping the SREP files!" \
+				zenity --warning --title "BIOS Manager For Steam Deck" --text "Произошла ошибка при загрузке/распаковке файлов SREP!" \
 					--width 350 --height 75
 
 			fi
@@ -259,17 +259,17 @@ then
 			# Delete SREP files from ESP
 			echo -e "$PASSWORD\n" | sudo -S rm -rf /esp/efi/$MODEL-SREP /esp/SREP.log /esp/SREP_Config.cfg
 
-			zenity --warning --title "Steam Deck BIOS Manager" --text "SREP files has been removed from the ESP!" --width 350 --height 75
+			zenity --warning --title "BIOS Manager For Steam Deck" --text "Файлы SREP были удалены из ESP!" --width 350 --height 75
 		fi
 
 elif [ "$Choice" == "RYZENADJ" ]
 then
 	clear
-	RYZENADJ_Choice=$(zenity --width 660 --height 220 --list --radiolist --multiple --title "Waydroid Toolbox" \
-		--column "Select One" --column "Option" --column="Description - Read this carefully!"\
-		FALSE INSTALL "Download and install ryzenadj to /usr/bin"\
-		FALSE UNINSTALL "Remove ryzenadj."\
-		TRUE MENU "***** Go back to Steam Deck BIOS Manager Main Menu *****")
+	RYZENADJ_Choice=$(zenity --width 660 --height 220 --list --radiolist --multiple --title "BIOS Manager For Steam Deck" \
+		--column "Выберите одно" --column "Опции" --column="Описание - Читайте внимательно!"\
+		FALSE INSTALL "Загрузите и установите ryzenadj в /usr/bin"\
+		FALSE UNINSTALL "Удалить ryzenadj."\
+		TRUE MENU "***** Вернутся обратно в BIOS Manager For Steam Deck Главное меню *****")
 
 		if [ $? -eq 1 ] || [ "$RYZENADJ_Choice" == "MENU" ]
 		then
@@ -293,7 +293,7 @@ then
 			echo -e "$PASSWORD\n" | sudo -S rm /usr/bin/ryzenadj
 			echo -e "$PASSWORD\n" | sudo -S steamos-readonly enable
 
-			zenity --warning --title "Steam Deck BIOS Manager" --text "ryzenadj has been removed!" --width 350 --height 75
+			zenity --warning --title "BIOS Manager For Steam Deck" --text "ryzenadj был удалён!" --width 350 --height 75
 		fi
 
 
@@ -302,7 +302,7 @@ then
 	clear
 	if [ "$MODEL" == "Galileo" ]
 	then
-		zenity --warning --title "Steam Deck BIOS Manager" --text "Steam Deck OLED can\'t be unlocked using Smokeless." --width 400 --height 75
+		zenity --warning --title "BIOS Manager For Steam Deck" --text "Steam Deck OLED нельзя разблокировать с помощью Smokeless." --width 400 --height 75
 	else
 		if [ "$BIOS_VERSION" == "F7A0110" ] || [ "$BIOS_VERSION" == "F7A0113" ] || \
 			[ "$BIOS_VERSION" == "F7A0115" ] || [ "$BIOS_VERSION" == "F7A0116" ]
@@ -310,11 +310,11 @@ then
 			curl -s -O --output-dir $(pwd)/ -L https://gitlab.com/evlaV/jupiter-PKGBUILD/-/raw/master/bin/jupiter-bios-unlock
 			chmod +x $(pwd)/jupiter-bios-unlock
 			echo -e "$PASSWORD\n" | sudo -S $(pwd)/jupiter-bios-unlock
-			zenity --warning --title "Steam Deck BIOS Manager" --text "BIOS has been unlocked using Smokeless. \
-				\n\nYou can now use Smokeless or access the AMD PBS CBS menu in the BIOS." --width 400 --height 75
+			zenity --warning --title "BIOS Manager For Steam Deck" --text "BIOS был разблокирован с помощью Smokeless. \
+				\n\nТеперь вы можете использовать Smokeless или зайти в меню AMD PBS CBS в BIOS." --width 400 --height 75
 		else
-			zenity --warning --title "Steam Deck BIOS Manager" --text "BIOS $BIOS_VERSION can\'t be unlocked using Smokeless. \
-				\n\nFlash BIOS v110 - v116 only for Smokeless unlock tool to work." --width 400 --height 75
+			zenity --warning --title "BIOS Manager For Steam Deck" --text "BIOS $BIOS_VERSION Невозможно разблокировать с помощью Smokeless. \
+				\n\nПрошивайте BIOS v110 - v116 только для того, чтобы инструмент разблокировки Smokeless работал." --width 400 --height 75
 		fi
 	fi
 
@@ -410,19 +410,19 @@ then
 	ls $(pwd)/BIOS/F7?????_sign.fd &> /dev/null
 	if [ $? -eq 0 ]
 	then
-		BIOS_Choice=$(zenity --title "Steam Deck BIOS Manager" --width 400 --height 400 --list \
+		BIOS_Choice=$(zenity --title "BIOS Manager For Steam Deck" --width 400 --height 400 --list \
 			--column "BIOS Version" $(ls -l $(pwd)/BIOS/F7?????_sign.fd | sed s/^.*\\/\//) )
 		if [ $? -eq 1 ]
 		then
 			echo User pressed CANCEL. Go back to main menu!
 		else
-			zenity --question --title "Steam Deck BIOS Manager" --text \
-			"Do you want to backup the current BIOS before updating to $BIOS_Choice?\n\nProceed?" --width 400 --height 75
+			zenity --question --title "BIOS Manager For Steam Deck" --text \
+			"Хотите ли вы создать резервную копию текущего BIOS перед обновлением до $BIOS_Choice?\n\nПродолжить?" --width 400 --height 75
 			if [ $? -eq 1 ]
 			then
 				echo User pressed NO. Ask again before updating the BIOS just to be sure.
-				zenity --question --title "Steam Deck BIOS Manager" --text \
-					"Current BIOS will be updated to $BIOS_Choice!\n\nProceed?" --width 400 --height 75
+				zenity --question --title "BIOS Manager For Steam Deck" --text \
+					"Текущий BIOS будет обновлен до $BIOS_Choice!\n\nПродолжить?" --width 400 --height 75
 				if [ $? -eq 1 ]
 				then
 					echo User pressed NO. Go back to main menu. 
