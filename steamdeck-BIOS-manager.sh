@@ -462,7 +462,7 @@ then
 		fi
 	else
 		zenity --warning --title "Steam Deck BIOS Manager" --text \
-			"BIOS files does not exist.\n\nPerform a DOWNLOAD operation first." --width 400 --height 75
+			"BIOS files does not exist.\n\nСначала выполните операцию DOWNLOAD." --width 400 --height 75
 	fi
 fi
 done
