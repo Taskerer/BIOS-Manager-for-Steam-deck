@@ -41,7 +41,7 @@
 1. Перейдите в режим рабочего стола и откройте терминал konsole.
 2. Клонируйте репозиторий github. \
    cd ~/ \
-   git clone https://github.com/ryanrudolfoba/SteamDeck-BIOS-Manager.git \
+   git clone https://github.com/Taskerer/BIOS-Manager-for-Steam-deck.git \
 3. Выполните скрипт! \
    cd ~/SteamDeck-BIOS-Manager \
    chmod +x steamdeck-BIOS-manager.sh \
