@@ -74,7 +74,7 @@ Choice=$(zenity --width 900 --height 410 --list --radiolist --multiple \
 	FALSE BLOCK "Запретить SteamOS автоматически обновлять BIOS"\
 	FALSE UNBLOCK "Разрешить SteamOS автоматически обновлять BIOS"\
 	FALSE SREP "Разблокируйте меню PBS / CBS BIOS с помощью SREP"\
-	FALSE SMOKELESS "Разблокировать BIOS с 110 по 116"\
+	FALSE SMOKELESS "Только для LCD! Разблокировать BIOS с 110 по 116"\
 	FALSE DOWNLOAD "Загрузить все версии BIOS для ручной прошивки"\
 	FALSE FLASH "Прошивка скачанного BIOS"\
 	FALSE CRISIS "Подготовьте USB-накопитель для прошивки BIOS в Crisis Mode"\
