@@ -135,9 +135,9 @@ then
 			# copy the BIOS file
 			if [ $MODEL = "Jupiter" ]
 			then
-				sudo cp $(pwd)/BIOS/F7A0120_sign.fd $(pwd)/temp/F7ARecovery.fd
+				sudo cp $(pwd)/BIOS/F7A0131_sign.fd $(pwd)/temp/F7ARecovery.fd
 			else
-				sudo cp $(pwd)/BIOS/F7G0107_sign.fd $(pwd)/temp/F7GRecovery.fd
+				sudo cp $(pwd)/BIOS/F7G0112_sign.fd $(pwd)/temp/F7GRecovery.fd
 			fi
 
 			# unmount the drive
@@ -323,6 +323,9 @@ then
 		echo downloading Steam Deck OLED - Galileo BIOS F7G0110
 		curl -s -O --output-dir $(pwd)/BIOS/ -L \
 			https://gitlab.com/evlaV/jupiter-hw-support/-/raw/eb91bebf4c2e5229db071720250d80286368e4e2/usr/share/jupiter_bios/F7G0110_sign.fd
+		echo downloading Steam Deck OLED - Galileo BIOS F7G0112
+		curl -s -O --output-dir $(pwd)/BIOS/ -L \
+			https://gitlab.com/evlaV/jupiter-hw-support/-/raw/6101a30a621a2119e8c5213e872b268973659964/usr/share/jupiter_bios/F7G0112_sign.fd
 		
 		echo Steam Deck OLED - Galileo BIOS download complete!
 	fi
